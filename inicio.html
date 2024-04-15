@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlzheimerMeds</title>
+    <style>
+        /* Estilos básicos */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url(img/pastillas.jpg);
+            background-color: black;
+        }
+        header, footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+
+
+        }
+        section {
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        form input[type="text"] {
+            width: 200px;
+            padding: 5px;
+            margin-right: 10px;
+        }
+        form input[type="submit"] {
+            padding: 5px 10px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AlzheimerMeds</h1>
+    </header>
+    <section>
+        <h2>Agregar Pastilla</h2>
+        <form id="addForm">
+            <input type="text" id="nombre" placeholder="Nombre de la pastilla" required>
+            <input type="text" id="hora" placeholder="Hora de toma (HH:MM)" required>
+            <input type="submit" value="Agregar">
+        </form>
+        <h2>Lista de Pastillas</h2>
+        <table id="pastillasTable">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Hora de Toma</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se agregarán las filas dinámicamente -->
+            </tbody>
+        </table>
+    </section>
+    <footer>
+        &copy; 2024 AlzheimerMeds
+    </footer>
+
+    <script>
+        // Código JavaScript para manejar las acciones del pastillero
+        const addForm = document.getElementById('addForm');
+        const pastillasTable = document.getElementById('pastillasTable').getElementsByTagName('tbody')[0];
+
+        addForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const hora = document.getElementById('hora').value;
+            if (nombre && hora) {
+                agregarPastilla(nombre, hora);
+                addForm.reset();
+            } else {
+                alert('Por favor, completa todos los campos.');
+            }
+        });
+
+        function agregarPastilla(nombre, hora) {
+            const newRow = pastillasTable.insertRow();
+            const cell1 = newRow.insertCell(0);
+            const cell2 = newRow.insertCell(1);
+            const cell3 = newRow.insertCell(2);
+
+            cell1.textContent = nombre;
+            cell2.textContent = hora;
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Eliminar';
+            deleteButton.addEventListener('click', function() {
+                pastillasTable.deleteRow(newRow.rowIndex);
+            });
+
+            cell3.appendChild(deleteButton);
+
+            // Aquí puedes agregar la lógica para registrar el historial de día y hora de la pastilla
+        }
+    </script>
+</body>
+</html>
